@@ -1,0 +1,7 @@
+infrastructure と usecase を繋ぐ。
+infrastructure で書いたただ繋ぐだけのファイルをプロダクト用に汎用性高く使えるように書く。
+
+interfaces は infrastructure に依存する。
+
+Database層は、具体的なデータストア（この場合はデータベース）とのインタラクションを担当します。この層は、どのように（How）データにアクセスするか、つまり具体的な実装方法に焦点を当てます。
+Interfaceの実装: databaseパッケージ内のTodoRepository構造体は、usecase層で定義されたTodoRepositoryインターフェースを実装します。これは、FindByIDメソッドの具体的な実装を提供し、実際にデータベースからデータを取得する方法を定義します。

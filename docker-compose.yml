@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:16
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=practicego
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data:/var/lib/postgresql/data
+
+  practicego:
+    build: .
+    restart: always
+    environment:
+      # Server Settings
+      - ENV=development
+      - SERVER_ADDR=8080
+      - SERVER_SHUTDOWN_TIMEOUT=5
+      - SERVER_READ_TIMEOUT=5
+      # Database Connection Settings
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=practicego
+      - DB_SSLMODE=disable
+      - DB_TIMEZONE=Asia/Tokyo
+      - DB_CONNECT_TIMEOUT=10
+      - DB_CONNECT_WAIT_TIME=10
+      - DB_CONNECT_ATTEMPTS=3
+      - DB_CONNECT_BLOCKS=false
+      - DB_CLOSE_TIMEOUT=5
+    volumes:
+      - .:/app # ソースコードをコンテナ内の/appディレクトリにマウント
+      - ./data:/var/lib/postgresql/data # データボリュームの設定
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
