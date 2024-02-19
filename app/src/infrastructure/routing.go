@@ -26,7 +26,11 @@ func NewRouting(db *DB,http *Http) *Routing {
 
 func (r *Routing) setRouting() {
     todosController := controllers.NewTodosController(r.DB)
+    r.Gin.GET("/todos", func (c *gin.Context) { todosController.GetAll(c) })
     r.Gin.GET("/todos/:id", func (c *gin.Context) { todosController.Get(c) })
+    r.Gin.POST("/todos", func (c *gin.Context) { todosController.Create(c) })
+    r.Gin.PUT("/todos/:id", func (c *gin.Context) { todosController.Update(c) })
+    r.Gin.DELETE("/todos/:id", func (c *gin.Context) { todosController.Delete(c) })
 }
 
 func (r *Routing) Run() {
